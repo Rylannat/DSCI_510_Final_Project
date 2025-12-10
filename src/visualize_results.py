@@ -23,10 +23,6 @@ from run_analysis import (
 sns.set(style="whitegrid")
 
 
-# =========================================================
-#  PLOT FUNCTIONS
-# =========================================================
-
 def plot_monthly_generation(monthly_summary):
     plt.figure(figsize=(12,5))
     sns.lineplot(x="period", y="generation", data=monthly_summary)
@@ -169,17 +165,12 @@ def plot_correlation_matrix(corr):
     plt.show()
 
 
-# =========================================================
-#  MAIN — RUN ANALYSIS + PLOTS
-# =========================================================
-
 if __name__ == "__main__":
 
     df = load_cleaned_data(
         "C:/Users/Rylan Lewis/Desktop/USC/DSCI 510/DSCI_510_Final_Project/data/processed/cleaned_data.csv"
     )
 
-    # Run analyses
     monthly_summary = compute_monthly_summary(df)
     yearly_summary = compute_yearly_summary(df)
     fuel_summary = compute_fuel_type_summary(df)
@@ -193,7 +184,6 @@ if __name__ == "__main__":
     system_eff = compute_system_efficiency_trend(df)
     fuel_share = compute_fuel_share(df)
 
-    # Generate ALL plots
     plot_monthly_generation(monthly_summary)
     plot_monthly_cost(monthly_summary)
     plot_yearly_efficiency(yearly_summary)

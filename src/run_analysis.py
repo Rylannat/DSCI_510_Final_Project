@@ -1,8 +1,6 @@
 import pandas as pd
 
-# =========================================================
-#  LOAD CLEANED DATA
-# =========================================================
+
 def load_cleaned_data(path: str) -> pd.DataFrame:
     """
     Load the cleaned dataset.
@@ -15,9 +13,7 @@ def load_cleaned_data(path: str) -> pd.DataFrame:
     return df
 
 
-# =========================================================
-#  1. TIME-SERIES ANALYSIS
-# =========================================================
+# TIME-SERIES ANALYSIS
 def compute_monthly_summary(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute monthly aggregated metrics using year–month grouping.
@@ -71,9 +67,7 @@ def compute_yearly_summary(df: pd.DataFrame) -> pd.DataFrame:
     return yearly
 
 
-# =========================================================
-#  2. FUEL-TYPE SUMMARY ANALYSIS
-# =========================================================
+# FUEL-TYPE SUMMARY ANALYSIS
 def compute_fuel_type_summary(df: pd.DataFrame) -> pd.DataFrame:
     """
     Summarize metrics for each fuel type.
@@ -100,9 +94,7 @@ def compute_fuel_type_summary(df: pd.DataFrame) -> pd.DataFrame:
     return fuel_summary
 
 
-# =========================================================
-#  3. MONTHLY FUEL-TYPE TRENDS
-# =========================================================
+# MONTHLY FUEL-TYPE TRENDS
 def compute_monthly_fuel_trends(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute monthly metrics for each fuel type.
@@ -131,9 +123,7 @@ def compute_monthly_fuel_trends(df: pd.DataFrame) -> pd.DataFrame:
     return monthly_fuel
 
 
-# =========================================================
-#  4. FUEL EFFICIENCY RANKING
-# =========================================================
+# FUEL EFFICIENCY RANKING
 def compute_fuel_efficiency_ranking(df: pd.DataFrame) -> pd.DataFrame:
     """
     Rank fuels by pure technical efficiency:
@@ -151,9 +141,7 @@ def compute_fuel_efficiency_ranking(df: pd.DataFrame) -> pd.DataFrame:
     return fuel_eff.sort_values("efficiency", ascending=False)
 
 
-# =========================================================
-#  5. FUEL COST DISTRIBUTION
-# =========================================================
+# FUEL COST DISTRIBUTION
 def compute_fuel_cost_distribution(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute cost distribution statistics for each fuel type.
@@ -166,9 +154,7 @@ def compute_fuel_cost_distribution(df: pd.DataFrame) -> pd.DataFrame:
     ).reset_index()
 
 
-# =========================================================
-#  6. TOP COST MONTHS
-# =========================================================
+# TOP COST MONTHS
 def top_cost_months(df: pd.DataFrame, top_n: int = 10) -> pd.Series:
     """
     Identify the top N most expensive months.
@@ -178,9 +164,7 @@ def top_cost_months(df: pd.DataFrame, top_n: int = 10) -> pd.Series:
     ).head(top_n)
 
 
-# =========================================================
-#  7. CORRELATION MATRIX
-# =========================================================
+# CORRELATION MATRIX
 def compute_correlation_matrix(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute correlations across all numeric features.
@@ -189,11 +173,7 @@ def compute_correlation_matrix(df: pd.DataFrame) -> pd.DataFrame:
     numeric_cols = df.select_dtypes(include="number")
     return numeric_cols.corr()
 
-
-# =========================================================
-#  8. --- NEW ENERGY EFFICIENCY ANALYSES ---
-# =========================================================
-
+# COST EFFICIENCY BASED ON FUEL TYPE
 def compute_cost_efficiency(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute cost-efficiency for each fuel type.
@@ -203,7 +183,7 @@ def compute_cost_efficiency(df: pd.DataFrame) -> pd.DataFrame:
     ce.rename(columns={"cost_per_btu": "cost_efficiency"}, inplace=True)
     return ce.sort_values("cost_efficiency")
 
-
+# ENERGY EFFICIENCY FOR EACH FUEL
 def compute_energy_per_dollar(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute economic energy efficiency for each fuel:
@@ -218,7 +198,7 @@ def compute_energy_per_dollar(df: pd.DataFrame) -> pd.DataFrame:
     epd["energy_per_dollar"] = epd["generation"] / epd["cost"]
     return epd.sort_values("energy_per_dollar", ascending=False)
 
-
+# EMISSIONS CONTENT BY EACH FUEL
 def compute_emissions_proxy(df: pd.DataFrame) -> pd.DataFrame:
     """
     Environmental efficiency proxy:
@@ -233,7 +213,7 @@ def compute_emissions_proxy(df: pd.DataFrame) -> pd.DataFrame:
     ep["emissions_proxy"] = ep["consumption_for_eg"] / ep["generation"]
     return ep.sort_values("emissions_proxy")
 
-
+# YEARLY SYSTEM EFFICIENCY
 def compute_system_efficiency_trend(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute yearly system-wide energy efficiency:
@@ -247,30 +227,23 @@ def compute_system_efficiency_trend(df: pd.DataFrame) -> pd.DataFrame:
     yearly["efficiency"] = yearly["generation"] / yearly["total_consumption"]
     return yearly
 
-
+# YEARLY GENERATION SHARE FOR EACH FUEL TYPE
 def compute_fuel_share(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute yearly generation share for each fuel type.
     Shows California's long-term fuel switching patterns.
     Assumes df already has a 'year' column.
     """
-    # Aggregate generation by year and fuel
     gen = df.groupby(["year", "fueltypedescription"], as_index=False)["generation"].sum()
 
-    # Total generation per year
     total_per_year = gen.groupby("year")["generation"].transform("sum")
 
-    # Share = fuel generation / total generation that year
     gen["share"] = gen["generation"] / total_per_year
 
-    # Return only needed columns
     return gen[["year", "fueltypedescription", "share"]]
 
 
 
-# =========================================================
-#  MAIN EXECUTION
-# =========================================================
 if __name__ == "__main__":
 
     df = load_cleaned_data(
@@ -279,7 +252,6 @@ if __name__ == "__main__":
 
     print(df.describe())
 
-    # Core analyses
     monthly_summary = compute_monthly_summary(df)
     yearly_summary = compute_yearly_summary(df)
     fuel_summary = compute_fuel_type_summary(df)
@@ -288,8 +260,6 @@ if __name__ == "__main__":
     fuel_cost_dist = compute_fuel_cost_distribution(df)
     top_months = top_cost_months(df)
     correlation = compute_correlation_matrix(df)
-
-    # New energy-efficiency analyses
     cost_eff = compute_cost_efficiency(df)
     epd = compute_energy_per_dollar(df)
     emissions_proxy = compute_emissions_proxy(df)

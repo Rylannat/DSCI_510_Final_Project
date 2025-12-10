@@ -252,17 +252,21 @@ def compute_fuel_share(df: pd.DataFrame) -> pd.DataFrame:
     """
     Compute yearly generation share for each fuel type.
     Shows California's long-term fuel switching patterns.
+    Assumes df already has a 'year' column.
     """
-    # Group by year and fuel type
-    fuel_share = df.groupby(["year", "fueltypedescription"])["generation"].sum()
-    
-    # Compute share within each year
-    fuel_share = fuel_share.groupby(level=0).apply(lambda x: x / x.sum())
-    
-    # Convert Series to DataFrame
-    fuel_share = fuel_share.reset_index(name="share")
-        
-    return fuel_share
+    # Aggregate generation by year and fuel
+    gen = df.groupby(["year", "fueltypedescription"], as_index=False)["generation"].sum()
+
+    # Total generation per year
+    total_per_year = gen.groupby("year")["generation"].transform("sum")
+
+    # Share = fuel generation / total generation that year
+    gen["share"] = gen["generation"] / total_per_year
+
+    # Return only needed columns
+    return gen[["year", "fueltypedescription", "share"]]
+
+
 
 # =========================================================
 #  MAIN EXECUTION

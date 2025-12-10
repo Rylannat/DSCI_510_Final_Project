@@ -1,6 +1,7 @@
 import requests
 import time
 import pandas as pd
+from typing import List, Dict
 
 API_KEY = "PuhpHetdCkI2FazmRMaJP5lz8Sebxc9EpShCgAqO"
 BASE_URL = "https://api.eia.gov/v2/electricity/electric-power-operational-data/data/"
@@ -8,7 +9,38 @@ BASE_URL = "https://api.eia.gov/v2/electricity/electric-power-operational-data/d
 PAGE_SIZE = 5000
 REQUEST_DELAY = 0.2
 
-def fetch_all_eia_data(data_fields, max_pages=100):
+def fetch_all_eia_data(data_fields: List[str], max_pages: int = 200) -> List[Dict]:
+    """
+    Fetch paginated data from the EIA v2 API for the specified data fields.
+
+    This function handles EIA's pagination mechanism by repeatedly requesting
+    additional pages until either:
+        (a) all pages have been retrieved, or
+        (b) the maximum number of pages (`max_pages`) is reached.
+
+    Parameters
+    ----------
+    data_fields : list[str]
+        A list of EIA data series names (e.g., ["price", "consumption"]).
+        These are appended as `data[i]=...` query parameters in the API request.
+    
+    max_pages : int, optional (default = 200)
+        A safety limit on the maximum number of pages to fetch.
+        Prevents infinite loops in case the API returns malformed pagination.
+
+    Returns
+    -------
+    list[dict]
+        A list of JSON records aggregated across all pages.
+        Each dict corresponds to one record returned by the API.
+
+    Notes
+    -----
+    - This function assumes that the API endpoint returns a JSON object with:
+        * "data": list of records
+        * "links": containing pagination URLs (specifically "next")
+    - If the API rate-limits, this function may need try/except or backoff logic.
+    """
 
     all_rows = []
     offset = 0

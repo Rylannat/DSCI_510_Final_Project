@@ -13,11 +13,11 @@ from run_analysis import (
     compute_fuel_cost_distribution,
     top_cost_months,
     compute_correlation_matrix,
-    # compute_cost_efficiency,
-    # compute_energy_per_dollar,
-    # compute_emissions_proxy,
-    # compute_system_efficiency_trend,
-    # compute_fuel_share
+    compute_cost_efficiency,
+    compute_energy_per_dollar,
+    compute_emissions_proxy,
+    compute_system_efficiency_trend,
+    compute_fuel_share
 )
 
 sns.set(style="whitegrid")
@@ -187,11 +187,11 @@ if __name__ == "__main__":
     fuel_cost_dist = compute_fuel_cost_distribution(df)
     top_months_series = top_cost_months(df)
     correlation = compute_correlation_matrix(df)
-    # cost_eff = compute_cost_efficiency(df)
-    # epd = compute_energy_per_dollar(df)
-    # emissions_proxy = compute_emissions_proxy(df)
-    # system_eff = compute_system_efficiency_trend(df)
-    # fuel_share = compute_fuel_share(df)
+    cost_eff = compute_cost_efficiency(df)
+    epd = compute_energy_per_dollar(df)
+    emissions_proxy = compute_emissions_proxy(df)
+    system_eff = compute_system_efficiency_trend(df)
+    fuel_share = compute_fuel_share(df)
 
     # Generate ALL plots
     plot_monthly_generation(monthly_summary)
@@ -199,10 +199,10 @@ if __name__ == "__main__":
     plot_yearly_efficiency(yearly_summary)
     plot_fuel_efficiency(fuel_summary)
     plot_monthly_fuel_cost(monthly_fuel)
-    # plot_cost_efficiency(cost_eff)
-    # plot_energy_per_dollar(epd)
-    # plot_emissions_proxy(emissions_proxy)
-    # plot_system_efficiency(system_eff)
-    # plot_fuel_share(fuel_share)
+    plot_cost_efficiency(cost_eff)
+    plot_energy_per_dollar(epd)
+    plot_emissions_proxy(emissions_proxy)
+    plot_system_efficiency(system_eff)
+    plot_fuel_share(fuel_share)
     plot_top_cost_months(top_months_series)
     plot_correlation_matrix(correlation)

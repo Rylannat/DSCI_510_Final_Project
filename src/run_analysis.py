@@ -5,9 +5,6 @@ def load_cleaned_data(path: str) -> pd.DataFrame:
     """
     Load the cleaned dataset.
 
-    The cleaned CSV already includes:
-    - proper datetime formatting
-    - derived columns (year, month)
     """
     df = pd.read_csv(path)
     return df
@@ -16,8 +13,8 @@ def load_cleaned_data(path: str) -> pd.DataFrame:
 # TIME-SERIES ANALYSIS
 def compute_monthly_summary(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Compute monthly aggregated metrics using year–month grouping.
-    Ensures true monthly granularity and avoids duplicate '01-01' dates.
+    Compute monthly aggregated metrics using year-month grouping.
+    Ensures true monthly level and avoids duplicate '01-01' dates.
 
     Aggregates:
     - Sums: generation, all consumption metrics

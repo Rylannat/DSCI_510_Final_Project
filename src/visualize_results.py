@@ -196,3 +196,72 @@ if __name__ == "__main__":
     plot_fuel_share(fuel_share)
     plot_top_cost_months(top_months_series)
     plot_correlation_matrix(correlation)
+
+
+
+"""
+INFERENCE:
+
+1. Monthly Total Generation Over Time:
+The total monthly generation is gradually increasing from 2020 until the end of 2024, which is a clear indication 
+of the overall steady growth in electricity output. In 2025, the generation decreases drastically which could mean 
+that either the data for the year is incomplete or there has been a major change in the system.
+
+2. Correlation Heatmap:
+Generation has very strong positive correlations with total consumption and other related consumption metrics, thus 
+confirming that a higher fuel usage leads almost linearly to increased electricity output. The cost and cost_per_btu 
+are significantly correlated with heat_content and sulfur_content which means that the quality and the composition of 
+the fuel influence the pricing.
+
+3. Top Costliest Months:
+The first single most expensive month shows a total cost that is substantially higher than all the other months combined, 
+thus making it a clear cost outlier that needs to be investigated further (e.g. fuel price spikes or demand shocks). 
+Several of the rest of the costliest months are clustered around the years 2022-2023, thus going hand in hand with the 
+broader upward cost trends that are also present in other plots.
+
+4. System-Wide Efficiency Over Time:
+System-wide efficiency keeps on getting better from 2020 until 2024 which is a sign that the conversion of fuel 
+consumption into electricity gets more and more efficient over time. In 2025 the efficiency is declining, this could 
+be a reflection of operational changes, fuel mix shifts or even partial-year data.
+
+5: Monthly Cost Trend by Fuel Type:
+Most visible cost changes are influenced by a handful of fuels whose costs rise from 2020 to a peak somewhere around 
+2022-2023 and then become moderate again in 2024. A lot of fuel types are close to zero in terms of the plotted cost 
+scale which could mean that they are being used minimally or their cost contributions are relatively insignificant as 
+compared to the main fuels.
+
+6. Emissions Proxy by Fuel:
+The fuels that have the lowest emissions proxy values can be considered the cleanest ones in this dataset as they are 
+using less BTUs per unit of generation. There are several fuel sources that have significantly higher emissions proxies,
+thus indicating that they should be the first ones to be replaced in any decarbonization strategy.
+
+7. Yearly System Efficiency (generation / total consumption):
+The annual efficiency ratio is very similar to the system-wide efficiency one showing the system's trend of increasing 
+electricity production per unit of fuel consumed up to 2024. The reason for the drop in 2025 could be either an 
+efficiency issue that is coming up or that the data for the year is not complete as compared to the previous ones.
+
+8. Fuel Efficiency by Fuel Type:
+There are only a few fuel types that can boast of much higher technical efficiency (generation/consumption) than the 
+others, in this way, they become the outstanding performers from an energy-conversion point of view alone. There are 
+some fuels that are concentrated at low or even close to zero efficiency which means that these are either measurement 
+anomalies or conversion performance is extremely unfavorable.
+
+9. Average Monthly Cost Over Time:
+The average monthly cost starts at 2020 and gradually increases until it reaches a peak around 2022, thus reflecting 
+the escalation of expenditures per month during that time. In 2023-2024, expenses are toned down but still remain 
+higher than those at the beginning of the period and then there is a slight upward trend again in 2025, thus indicating 
+a kind of new equilibrium at a higher cost level.
+
+10. Cost Efficiency per BTU:
+Looking at the cost per BTU of the different fuels, one can see that natural gas along with other related gas categories
+have relatively low costs per BTU which makes them economically advantageous energy sources. There are some fuels that 
+have considerably higher costs per BTU which makes them less attractive from a cost-efficiency standpoint even without 
+considering emissions.
+
+11. Energy per Dollar per Fuel:
+There is a handful of fuels that provides tremendously high energy per dollar, thus pointing out the strong economic 
+efficiency when both one generation and one cost are considered jointly. On the other hand, there are a lot of fuels 
+that offer relatively low energy per dollar, thus indicating that these are more expensive options once they are 
+normalized by delivered electricity.
+
+"""

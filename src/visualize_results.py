@@ -168,7 +168,7 @@ def plot_correlation_matrix(corr):
 if __name__ == "__main__":
 
     df = load_cleaned_data(
-        "C:/Users/Rylan Lewis/Desktop/USC/DSCI 510/DSCI_510_Final_Project/data/processed/cleaned_data.csv"
+        "../data/processed/cleaned_data.csv"
     )
 
     monthly_summary = compute_monthly_summary(df)

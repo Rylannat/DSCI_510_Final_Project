@@ -244,7 +244,7 @@ def compute_fuel_share(df: pd.DataFrame) -> pd.DataFrame:
 if __name__ == "__main__":
 
     df = load_cleaned_data(
-        "C:/Users/Rylan Lewis/Desktop/USC/DSCI 510/DSCI_510_Final_Project/data/processed/cleaned_data.csv"
+        "../data/processed/cleaned_data.csv"
     )
 
     print(df.describe())

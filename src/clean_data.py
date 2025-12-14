@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from typing import List, Dict
 
-df = pd.read_csv("C:/Users/Rylan Lewis/Desktop/USC/DSCI 510/DSCI_510_Final_Project/data/raw/eia_raw_data.csv")
+df = pd.read_csv("../data/raw/eia_raw_data.csv")
 
 print("Sample of the dataset\n", df.head())
 print("\n")
@@ -41,7 +41,8 @@ print(df.isna().sum())
 # using grouped data imputation technique for the cost and cost_per_btu columns as they have lot of null valyes
 # but are extremely important for the project
 # imputation is happening as:
-# For a specific month -> for each specific fuel type -> the average of the cost for the specific fuel type for that specific month to be imputed in the null fields of that specific fuel type for that specific month
+# For a specific month -> for each specific fuel type -> the average of the cost for the specific fuel type for that 
+# specific month to be imputed in the null fields of that specific fuel type for that specific month
 
 def drop_unit_columns(df: pd.DataFrame) -> pd.DataFrame:
     unit_cols = [col for col in df.columns if col.endswith("_units")]
@@ -116,6 +117,6 @@ print("\n")
 numeric_cols = df_imputed.select_dtypes(include=np.number).columns
 print((df_imputed[numeric_cols] < 0).sum())
 
-output_path = "C:/Users/Rylan Lewis/Desktop/USC/DSCI 510/DSCI_510_Final_Project/data/processed/cleaned_data.csv"
+output_path = "../data/processed/cleaned_data.csv"
 df_imputed.to_csv(output_path, index=False)
 print(f" Cleaned data saved to: {output_path}")

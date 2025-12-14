@@ -119,6 +119,6 @@ print("Starting EIA API download...")
 rows = fetch_all_eia_data(data_fields)
 
 df = pd.DataFrame(rows)
-df.to_csv("C:/Users/Rylan Lewis/Desktop/USC/DSCI 510/DSCI_510_Final_Project/data/raw/eia_raw_data.csv", index=False)
+df.to_csv("../data/raw/eia_raw_data.csv", index=False)
 
 print("\nData saved")
